@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxograma de Criação de Espelhos - PRALOG</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            height: 60px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .main-title {
+            font-size: 2.8em;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            font-weight: 400;
+        }
+
+        /* FLUXOGRAMA STYLES */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            background: white;
+            padding: 40px 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        /* FORMAS DO FLUXOGRAMA */
+        .flow-element {
+            position: relative;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .flow-element:hover {
+            transform: translateY(-5px);
+        }
+
+        /* INÍCIO/FIM - OVAL */
+        .start-end {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+            min-width: 200px;
+        }
+
+        /* PROCESSO - RETÂNGULO */
+        .process {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 25px 35px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1em;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+            min-width: 300px;
+            max-width: 400px;
+        }
+
+        /* DECISÃO - LOSANGO */
+        .decision {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            padding: 25px;
+            transform: rotate(45deg);
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3);
+            position: relative;
+        }
+
+        .decision-content {
+            transform: rotate(-45deg);
+            font-weight: 600;
+            font-size: 0.9em;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* DADOS/ENTRADA - PARALELOGRAMO */
+        .data {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 20px 30px;
+            transform: skew(-20deg);
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.3);
+            min-width: 280px;
+        }
+
+        .data-content {
+            transform: skew(20deg);
+        }
+
+        /* DOCUMENTO - RETÂNGULO COM ONDAS */
+        .document {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 25px 35px;
+            border-radius: 10px 10px 0 0;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+            min-width: 300px;
+            position: relative;
+        }
+
+        .document::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border-radius: 0 0 50% 50%;
+        }
+
+        /* CONECTORES */
+        .connector {
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(180deg, #34495e, #2c3e50);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .connector::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid #2c3e50;
+        }
+
+        /* DETALHES EXPANDIDOS */
+        .details {
+            background: #ecf0f1;
+            border: 2px solid #bdc3c7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            display: none;
+            max-width: 500px;
+        }
+
+        .details.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .details h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .details ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .details li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .details li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #3498db;
+        }
+
+        .link-btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9em;
+            margin: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .link-btn:hover {
+            background: #2980b9;
+        }
+
+        /* CLICK INDICATOR */
+        .clickable {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .clickable::before {
+            content: '👆 Clique para detalhes';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #34495e;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .clickable:hover::before {
+            opacity: 1;
+        }
+
+        /* RESUMO FINAL */
+        .summary {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .summary h3 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: 800;
+            color: #3498db;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.2em;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-container">
+                <img src="IMG/pra.png" alt="PRALOG Logo" class="logo">
+                <img src="IMG/pra2.png" alt="PRALOG Brand" class="logo">
+            </div>
+            <h1 class="main-title">FLUXOGRAMA DE CRIAÇÃO DE ESPELHOS</h1>
+            <p class="subtitle">Processo Sistemático de Geração de Recibos - PRALOG Transportes</p>
+        </div>
+
+        <!-- FLUXOGRAMA -->
+        <div class="flowchart">
+            <!-- INÍCIO -->
+            <div class="flow-element">
+                <div class="start-end">INÍCIO DO PROCESSO</div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 1: COLETA DE DADOS DA OPERAÇÃO -->
+            <div class="flow-element">
+                <div class="data clickable" onclick="toggleDetails('details-1')">
+                    <div class="data-content">COLETA DE DADOS DA OPERAÇÃO</div>
+                </div>
+                <div class="details" id="details-1">
+                    <h4>📊 Fontes de Dados por Cliente:</h4>
+                    <ul>
+                        <li><strong>Profarma SP/RJ:</strong> PCD via Google Sheets</li>
+                        <li><strong>Ambev (PAVUNA,JPA,PETROPOLIS ):</strong> PCD via SharePoint</li>
+                        <li><strong>Mercado Livre:</strong> Sistema Wickus</li>
+                        <li><strong>Shopee:</strong> Planilha Gerencial por Email</li>
+                    </ul>
+                    <div style="margin-top: 15px;">
+                        <a href="https://docs.google.com/spreadsheets/d/1qTT-JgG8stN42LmSM0m1TBxJWChUAr-C4Xtfy1QUPPk/edit" class="link-btn" target="_blank">PCD Profarma SP</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1jAyvZSXnYSnHODrFRHY3-sKexQGSSsZZU012nWNQLTQ/edit" class="link-btn" target="_blank">PCD Profarma RJ</a>
+                        <a href="https://pralog-my.sharepoint.com/:x:/r/personal/migracaoitguys020_pralog_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B5A76C11C-5E23-473D-B2CD-CDD12316EA5F%7D&file=OP%20VUCS%20PRALOG%20AMBEV%20RJ%202025.xlsx&action=default&mobileredirect=true" class="link-btn" target="_blank">PCD Ambev RJ</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 2: CRIAÇÃO DA BASE INTELIGENTE -->
+            <div class="flow-element">
+                <div class="process clickable" onclick="toggleDetails('details-base')">CRIAÇÃO DA BASE INTELIGENTE</div>
+                <div class="details" id="details-base">
+                    <h4>🧠 Base Inteligente:</h4>
+                    <ul>
+                        <li>Comparar informações da operação com as informações da fatura</li>
+                        <li>Consolidar dados de múltiplas fontes</li>
+                        <li>Organizar informações para análise</li>
+                        <li>Preparar base para pagamento</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 3: VALIDAÇÃO -->
+            <div class="flow-element">
+                <div class="decision clickable" onclick="toggleDetails('details-2')">
+                    <div class="decision-content">ROTAS DOS PCDS BATEM COM A FATURA?</div>
+                </div>
+                <div class="details" id="details-2">
+                    <h4>🔍 Processo de Validação:</h4>
+                    <ul>
+                        <li>Se bate: Prosseguir com pagamento</li>
+                        <li>Se não bate: Cobrar rotas não recebidas dos clientes</li>
+                        <li>Pagar apenas quando recebermos as rotas corretas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 4: VERIFICAÇÃO DE CONTRATOS -->
+            <div class="flow-element">
+                <div class="process clickable" onclick="toggleDetails('details-3')">VERIFICAR TIPO DE CONTRATO</div>
+                <div class="details" id="details-3">
+                    <h4>📋 Tipos de Contrato:</h4>
+                    <ul>
+                        <li><strong>Locação:</strong> Valor de aluguel mensal</li>
+                        <li><strong>Diarista:</strong> Pagamento por dia trabalhado</li>
+                    </ul>
+                    <a href="https://pralog-my.sharepoint.com/:x:/g/personal/renan_souza_pralog_onmicrosoft_com/EaxCyZ5sxUNIs23rc-QAKRIBtBZHZD4ONRshGHtyymcy9A" class="link-btn" target="_blank">Ver Contratos</a>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 3: ANÁLISE DE DESCONTOS -->
+            <div class="flow-element">
+                <div class="process clickable" onclick="toggleDetails('details-4')">ANALISAR TODOS OS DESCONTOS</div>
+                <div class="details" id="details-4">
+                    <h4>💰 Tipos de Descontos:</h4>
+                    <ul>
+                        <li><strong>Multas e Avarias:</strong> Infrações e danos</li>
+                        <li><strong>PNR/Lost:</strong> Pacotes perdidos/extraviados</li>
+                        <li><strong>Ticket Log:</strong> Vale combustível (só locação)</li>
+                        <li><strong>Saldo Negativo:</strong> Débitos do mês anterior</li>
+                        <li><strong>GR:</strong> Gerenciamento de risco (quinzenal)</li>
+                    </ul>
+                    <div style="margin-top: 15px;">
+                        <a href="https://pralog-my.sharepoint.com/:x:/r/personal/guilherme_moura_pralog_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B76E70937-E9A5-4445-8B09-DC1B4C5D4B4D%7D&file=Planilha%20de%20Multa%20e%20Avarias%20-%20PRALOG.xlsx&action=default&mobileredirect=true" class="link-btn" target="_blank">Multas/Avarias</a>
+                        <a href="https://pralog-my.sharepoint.com/:x:/g/personal/guilherme_moura_pralog_onmicrosoft_com/EYRbbzGFekNAvyN3UvqztRkBqJVRARx2eKqQl09VD_TdxQ?e=GvKdba" class="link-btn" target="_blank">PNR/Lost Meli</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1yXZJTZwX3DaCTHXoT1tAWgP1TNfgICX4GfA4Wvk1ALc/edit?gid=0#gid=0" class="link-btn" target="_blank">PNR/Lost Shopee</a>
+                        <a href="https://pralog-my.sharepoint.com/:x:/g/personal/guilherme_moura_pralog_onmicrosoft_com/Ee30J7swdzhBnEX-JAZQF3YBYlSdHc6v3V2rWS07XWnAAw?e=23VwJW" class="link-btn" target="_blank">Ticket Log</a>
+                        <a href="https://app.powerbi.com/groups/me/reports/d671c05b-07aa-4a56-afec-271595cc61b9/279443d22815097902cc?experience=power-bi" class="link-btn" target="_blank">BI Saldos Negativo</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 4: CRIAÇÃO DOS ESPELHOS -->
+            <div class="flow-element">
+                <div class="document clickable" onclick="toggleDetails('details-5')">GERAR ESPELHOS FINAIS</div>
+                <div class="details" id="details-5">
+                    <h4>📄 Criação dos Espelhos:</h4>
+                    <ul>
+                        <li>Aplicar valores de rotas validadas</li>
+                        <li>Incluir aluguel (se locação)</li>
+                        <li>Colocar todos os descontos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 5: UPLOAD -->
+            <div class="flow-element">
+                <div class="process clickable" onclick="toggleDetails('details-6')">UPLOAD PARA DRIVES ESPECÍFICOS</div>
+                <div class="details" id="details-6">
+                    <h4>☁️ Upload por Cliente:</h4>
+                    <ul>
+                        <li><strong>Mercado Livre:</strong> Drive específico ML</li>
+                        <li><strong>Shopee:</strong> Drive específico Shopee</li>
+                        <li><strong>Outros:</strong> Sistema interno</li>
+                    </ul>
+                    <div style="margin-top: 15px;">
+                        <a href="https://drive.google.com/drive/folders/1lorhs3i1kJpEKpcdK1lqKfR4DBDzHtSP" class="link-btn" target="_blank">Drive ML</a>
+                        <a href="https://drive.google.com/drive/folders/1KT7Vt1M73DhbcYx4p8dy2caKwQ0suLaX" class="link-btn" target="_blank">Drive Shopee</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 6: APROVAÇÃO -->
+            <div class="flow-element">
+                <div class="process">THAMIRES REVISA E APROVA E COLOCA NA PLANILHA DE PAGAMENTOS</div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 7: PAGAMENTO -->
+            <div class="flow-element">
+                <div class="process">DESPACHANTES ENVIAM ESPELHOS AOS MOTORISTAS</div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- ETAPA 8: VERIFICAÇÃO FINAL -->
+            <div class="flow-element">
+                <div class="decision clickable" onclick="toggleDetails('details-verificacao')">
+                    <div class="decision-content">DESPACHANTE SINALIZA ALGUM ERRO?</div>
+                </div>
+                <div class="details" id="details-verificacao">
+                    <h4>🔍 Verificação Final:</h4>
+                    <ul>
+                        <li>Despachante verifica espelhos antes do envio</li>
+                        <li>Se há erro: Solicita correção e aguarda ajustes</li>
+                        <li>Se não há erro: Prossegue com pagamento</li>
+                        <li>Comunica problemas encontrados quando necessário</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- FIM -->
+            <div class="flow-element">
+                <div class="start-end">PAGAMENTO LIBERADO</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDetails(elementId) {
+            const details = document.getElementById(elementId);
+            const allDetails = document.querySelectorAll('.details');
+            
+            // Fechar todos os outros detalhes
+            allDetails.forEach(detail => {
+                if (detail.id !== elementId) {
+                    detail.classList.remove('show');
+                }
+            });
+            
+            // Toggle do elemento atual
+            details.classList.toggle('show');
+        }
+
+        // Fechar detalhes ao clicar fora
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.clickable') && !e.target.closest('.details')) {
+                const allDetails = document.querySelectorAll('.details');
+                allDetails.forEach(detail => {
+                    detail.classList.remove('show');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
